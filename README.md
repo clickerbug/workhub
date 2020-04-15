@@ -1,10 +1,10 @@
 ### How to Install?
 1. Create a venv for python3, - `python3 -m venv ./venv`
-2. Install dependencies, - `pip install -r requirements.txt`
-3. Perform migrations - `python manage.py migrate`, if you dont have migration files 
-already run `python manage.py makemigrations` to create migration files for your apps.
-4. Create superuser (optional) - `python manage.py createsuper`
-5. Run the application - `python manage.py runserver`
+2. Install dependencies, - `pip3 install -r requirements.txt`
+3. Perform migrations - `python3 manage.py migrate`, if you dont have migration files 
+already run `python3 manage.py makemigrations` to create migration files for your apps.
+4. Create superuser (optional) - `python manage.py createsuperuser'
+5. Run the application - `python3 manage.py runserver`
 
 ### Adding Workshops & Topics
 1. Create a superuser account
