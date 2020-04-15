@@ -35,7 +35,7 @@ class Query(graphene.ObjectType):
     def resolve_getRecommendedWorkshops(self, info):
         user = info.context.user
         topics = user.interestedTopics.all()
-        if topics is not None:
-            return Workshop.objects.filter(topics__in=topics)
+        if len(topics) > 0:
+            return Workshop.objects.filter(topics__in=topics).distinct()
         else:
             return Workshop.objects.all()
