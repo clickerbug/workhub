@@ -1,5 +1,6 @@
 import graphene
 from user.schema import Query as UserQueries, Mutation as UserMutations
+from workshop.schema import Query as WorkshopQueries
 
 
 class Mutation(
@@ -11,6 +12,7 @@ class Mutation(
 
 class Query(
     UserQueries,
+    WorkshopQueries,
     graphene.ObjectType
 ):
     pass

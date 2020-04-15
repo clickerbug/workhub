@@ -4,11 +4,15 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from graphql_jwt.signals import token_issued
 
+from workshop.models import Topic
+
 
 class User(AbstractUser):
     email = models.EmailField(unique=True, null=False, blank=False)
     first_name = models.CharField(max_length=255, default='', blank=True, verbose_name='First Name')
     last_name = models.CharField(max_length=255, default='', blank=True, verbose_name='Last Name')
+
+    interestedTopics = models.ManyToManyField(Topic, blank=True)
 
 
 # user login function that stores last login timestamp when a user login

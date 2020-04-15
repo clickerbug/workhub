@@ -1,23 +1,3 @@
-# Framework - Django Boilerplate
-
-**What is Framework?**
-
-Framework is a collection of boilerplate projects for quick starting production-class 
-python django based backend applications, particularly utilizing django as an ORM, 
-and as an API server. Framework can help you built production-grade, secure, reliable
-backend for your applications that scales, within minutes.
-
-You would only need a fork!
-
-**Variant: Minimum Config**
-
-This variant of framework is a basic django project, with GraphQL integrated.
-
-### Features
-* GraphQL API creation support, support for JWT based auth
-* Setting secrets through environment variables
-* Customizable, extensible User-Auth model
-
 ### How to Install?
 1. Create a venv for python3, - `python3 -m venv ./venv`
 2. Install dependencies, - `pip install -r requirements.txt`
@@ -26,5 +6,97 @@ already run `python manage.py makemigrations` to create migration files for your
 4. Create superuser (optional) - `python manage.py createsuper`
 5. Run the application - `python manage.py runserver`
 
-<hr>
-Made with <3 by Ashwin Shenoy.
+### Adding Workshops & Topics
+1. Create a superuser account
+2. http://127.0.0.1:8000/admin and login with it
+3. Add Workshops / Topics using the UI available
+
+### APIs
+API request can be sent to localhost:8000 / http://127.0.0.1:8000/ on default
+
+You can visit http://127.0.0.1:8000/ to see a graphiql console to debug and test
+the apis after setting up the app.
+
+#### 1. Register User
+```
+mutation create_user{
+  registerUser(email: "abc@gmail.com", password: "password123")
+  {
+    returning
+    {
+      username
+    }
+  }
+}
+```
+
+#### 2. Login User
+Store the token returned and save it in cookie,
+should be included in all future authenticated queries with
+in request header as Authorization : `JWT <token>`
+
+```
+mutation login_user{
+  tokenAuth(input: {
+    username: "aswin",
+    password: "123"
+  })
+  {
+    token
+  }
+}
+```
+#### 3. Listing All Available Topics
+```
+query {
+    getTopics
+    {
+      id
+      name
+      slug
+    }
+}
+```
+
+#### 4. Add Topics to User's Preference
+Simply pass the topic id, with the auth token set in header
+```
+mutation add_topic{
+  addUserTopics(topicID: 1)
+}
+```
+#### 5. List Workshops
+without recommendation
+```
+query {
+  getWorkshops
+  {
+    id
+    name
+    description
+    topics
+    {
+      id
+      name
+    }
+  }
+}
+```
+with recommendation
+```
+query {
+  getRecommendedWorkshops
+  {
+    id
+    name
+    description
+    topics
+    {
+      id
+      name
+      slug
+    }
+  }
+}
+```
+

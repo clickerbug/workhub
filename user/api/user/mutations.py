@@ -1,10 +1,12 @@
 import graphene
 from django.db.models import Q
+from graphql_jwt.decorators import login_required
 
 from framework.utils.graphql import APIException
 from user.api.user.objects import UserObj
 from user.models import User
 from user.utils.generators import generate_username_from_email, generate_password
+from workshop.models import Topic
 
 
 class UserRegistrationObj(graphene.ObjectType):
@@ -56,5 +58,24 @@ class RegisterUser(graphene.Mutation):
             )
 
 
+class AddUserTopics(graphene.Mutation):
+    class Arguments:
+        topicID = graphene.Int(required=True)
+
+    Output = graphene.Boolean
+
+    @login_required
+    def mutate(self, info, topicID):
+        user = info.context.user
+        if user.is_authenticated:
+            topic = Topic.objects.get(id=topicID)
+            user.interestedTopics.add(topic)
+            user.save()
+            return True
+        else:
+            return False
+
+
 class Mutation(object):
     registerUser = RegisterUser.Field()
+    addUserTopics = AddUserTopics.Field()

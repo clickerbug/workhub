@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
 
     # functionality apps
+    'workshop',
     'user',
 ]
 
