@@ -11,9 +11,10 @@ You would only need a fork!
 
 **Variant: Minimum Config**
 
-This variant of framework is a basic django project
+This variant of framework is a basic django project, with GraphQL integrated.
 
 ### Features
+* GraphQL API creation support, support for JWT based auth
 * Setting secrets through environment variables
 * Customizable, extensible User-Auth model
 

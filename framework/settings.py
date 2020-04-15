@@ -1,4 +1,6 @@
 import os
+from datetime import timedelta
+
 from environs import Env
 
 env = Env()
@@ -53,6 +55,8 @@ INSTALLED_APPS = [
 
     # Third-Party Plugins
     'corsheaders',
+    'graphene_django',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
 
     # functionality apps
     'user',
@@ -96,6 +100,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 AUTH_USER_MODEL = 'user.User'
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kolkata'
@@ -103,9 +112,31 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATIC_ROOT = ''
+##
+#   Static settings
+##
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 MEDIA_URL = '/'
 
-STATICFILES_DIRS = (os.path.join('static'),)
 FILE_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 25
+
+
+##
+#   GraphQL Settings
+##
+GRAPHENE = {
+    'SCHEMA': 'framework.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+}
+
+GRAPHQL_JWT = {
+    'JWT_ALLOW_ARGUMENT': True,
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_USER_LOGGED_IN_SIGNAL': True,
+    'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
+    'JWT_EXPIRATION_DELTA': timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+}
